@@ -14,13 +14,14 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        required:[true,"Password is required"]
+        required:[true,"Password is required"],
+        select:false
 
     }
 })
 
-userSchema.pre("save",function(next){})
-userSchema.post("save",function(next){})
+// userSchema.pre("save",function(next){})
+// userSchema.post("save",function(next){})
 
 const userModel= mongoose.model("users",userSchema)
 
