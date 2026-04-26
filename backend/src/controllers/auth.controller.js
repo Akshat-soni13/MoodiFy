@@ -1,6 +1,8 @@
 const userModel = require("../models/user.model")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+const blackListModel = require("../models/blacklist.model")
+const redis = require("../config/cache")
 
 async function registerUser(req,res)
 {
@@ -91,6 +93,8 @@ async function loginUSer(req,res)
             expiresIn:"3d"
         }
     )
+    res.cookie("token",token)
+
      return res.status(201).json({
         message:"User LoggedIn  Successfully ",
         user:{
@@ -117,4 +121,32 @@ async function getMe(req,res)
     })
 }
 
-module.exports ={registerUser,loginUSer,getMe}
+async function logoutUser(req,res)
+{
+    const token = req.cookies.token
+    
+    res.clearCookie("token")
+
+    await redis.set(token, Date.now().toString(),"EX",60*60)
+    // matlab Ex matlab 1 hr me apna app delete hojyega 
+    
+    await blackListModel.create(
+    {
+        token
+    }
+   )
+
+   res.status(200).json({
+        message:"User Logged Out"
+   })
+
+
+}
+
+// data strore in form of key value in redis
+// {
+    // key:"value"
+// }
+
+
+module.exports ={registerUser,loginUSer,getMe,logoutUser}
