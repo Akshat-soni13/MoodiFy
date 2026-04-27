@@ -1,0 +1,7 @@
+Ui Layer Dikhana and navigate wala funda ui have two folder pages and component 
+hook => state and Apis manage karna [hooks]
+state => data stoire
+Api layer Frotend and backend commmnuication 
+
+
+Ui layer ompleted fetires wal;a only 
