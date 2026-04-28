@@ -1,87 +1,299 @@
-.loader-container {
-  height: 100vh;
-  background: #0f172a;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: #38bdf8;
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,400&family=DM+Sans:wght@300;400&display=swap');
+
+// ─── Tokens ───────────────────────────────────────────────────────────────────
+$bg:          #0d0d14;
+$surface:     #13131f;
+$border:      #1e1e2e;
+$purple:      #7F77DD;
+$purple-dim:  #3C3489;
+$purple-muted:#1a1828;
+$pink:        #D4537E;
+$pink-dim:    #993556;
+$pink-muted:  #1f0f17;
+$teal:        #1D9E75;
+$teal-dim:    #0F6E56;
+$teal-muted:  #0a1f19;
+$text-primary:#f0eff8;
+$text-dim:    #AFA9EC;
+$text-muted:  #6e6d80;
+$text-ghost:  #3a3a50;
+
+$font-display: 'Playfair Display', Georgia, serif;
+$font-body:    'DM Sans', system-ui, sans-serif;
+
+// ─── Keyframes ────────────────────────────────────────────────────────────────
+@keyframes drift {
+  from { transform: scale(1) translate(0, 0); }
+  to   { transform: scale(1.1) translate(10px, -10px); }
 }
 
-/* Headphone */
-.headphone {
+@keyframes wave {
+  0%, 100% { height: 8px;  opacity: 0.4; }
+  50%       { height: 44px; opacity: 1;   }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ─── Root ─────────────────────────────────────────────────────────────────────
+.moodify-loader {
   position: relative;
-  width: 120px;
-  height: 120px;
-  margin-bottom: 30px;
-}
+  min-height: 100vh;
+  background: $bg;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 3rem 2rem;
 
-.band {
-  position: absolute;
-  width: 100%;
-  height: 60px;
-  border: 6px solid #38bdf8;
-  border-bottom: none;
-  border-radius: 60px 60px 0 0;
-  animation: pulse 1.5s infinite;
-}
-
-.ear {
-  position: absolute;
-  width: 30px;
-  height: 60px;
-  background: #38bdf8;
-  border-radius: 15px;
-  top: 50px;
-  animation: bounce 1s infinite alternate;
-}
-
-.left {
-  left: 0;
-}
-
-.right {
-  right: 0;
-}
-
-/* Text animation */
-.logo-text span {
-  font-size: 2rem;
-  font-weight: bold;
-  opacity: 0;
-  display: inline-block;
-  animation: typing 0.5s forwards;
-}
-
-/* Animations */
-@keyframes typing {
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  // ─── Background ambient circles ─────────────────────────────────────────────
+  &__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
   }
-  from {
+
+  &__bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.07;
+
+    &--1 {
+      width: 320px;
+      height: 320px;
+      background: $purple;
+      top: -80px;
+      left: -60px;
+      animation: drift 8s ease-in-out infinite alternate;
+    }
+
+    &--2 {
+      width: 240px;
+      height: 240px;
+      background: $pink;
+      bottom: -60px;
+      right: -40px;
+      animation: drift 8s ease-in-out infinite alternate;
+      animation-delay: 2s;
+    }
+
+    &--3 {
+      width: 180px;
+      height: 180px;
+      background: $teal;
+      top: 40%;
+      left: 60%;
+      animation: drift 8s ease-in-out infinite alternate;
+      animation-delay: 4s;
+    }
+  }
+
+  // ─── Story container ─────────────────────────────────────────────────────────
+  &__story {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100vh;
+    max-width: 420px;
     opacity: 0;
     transform: translateY(10px);
-  }
-}
+    transition: opacity 0.35s ease, transform 0.35s ease;
 
-@keyframes bounce {
-  from {
-    transform: scaleY(1);
+    &--visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  to {
-    transform: scaleY(1.2);
-  }
-}
 
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 10px #38bdf8;
+  // ─── Chapter tag ─────────────────────────────────────────────────────────────
+  &__tag {
+    font-family: $font-body;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    color: $purple;
+    text-transform: uppercase;
   }
-  50% {
-    box-shadow: 0 0 25px #38bdf8;
+
+  // ─── Headline ────────────────────────────────────────────────────────────────
+  &__headline {
+    font-family: $font-display;
+    font-size: 26px;
+    font-weight: 500;
+    color: $text-primary;
+    text-align: center;
+    line-height: 1.4;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    em {
+      font-style: italic;
+      font-weight: 400;
+      color: $text-dim;
+    }
   }
-  100% {
-    box-shadow: 0 0 10px #38bdf8;
+
+  &__headline-line {
+    display: block;
+  }
+
+  // ─── Subtitle ────────────────────────────────────────────────────────────────
+  &__sub {
+    font-family: $font-body;
+    font-size: 14px;
+    font-weight: 300;
+    color: $text-muted;
+    text-align: center;
+  }
+
+  // ─── Waveform ────────────────────────────────────────────────────────────────
+  &__waveform {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 52px;
+  }
+
+  &__bar {
+    display: block;
+    width: 4px;
+    height: 8px;
+    border-radius: 2px;
+    background: $purple;
+    animation: wave 1.2s ease-in-out infinite;
+
+    &:nth-child(odd)  { background: $pink; }
+    &:nth-child(3n)   { background: $teal; }
+  }
+
+  // ─── Mood pills ──────────────────────────────────────────────────────────────
+  &__moods {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-height: 36px;
+  }
+
+  &__pill {
+    font-family: $font-body;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 5px 16px;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+
+    &--show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    &--purple {
+      color: $text-dim;
+      border-color: $purple-dim;
+      background: $purple-muted;
+    }
+
+    &--teal {
+      color: #5DCAA5;
+      border-color: $teal-dim;
+      background: $teal-muted;
+    }
+
+    &--pink {
+      color: #ED93B1;
+      border-color: $pink-dim;
+      background: $pink-muted;
+    }
+  }
+
+  // ─── Vinyl ───────────────────────────────────────────────────────────────────
+  &__vinyl {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 3px solid $border;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: spin 4s linear infinite;
+  }
+
+  &__vinyl-groove {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid $border;
+
+    &--lg { width: 64px; height: 64px; }
+    &--md { width: 50px; height: 50px; }
+    &--sm { width: 36px; height: 36px; }
+  }
+
+  &__vinyl-core {
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: $purple;
+    z-index: 1;
+  }
+
+  // ─── Progress bar ────────────────────────────────────────────────────────────
+  &__progress {
+    width: 100%;
+    height: 2px;
+    background: $border;
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  &__progress-fill {
+    height: 100%;
+    background: $purple;
+    border-radius: 1px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  // ─── Step dots ───────────────────────────────────────────────────────────────
+  &__dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  &__dot {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $border;
+    transition: background 0.4s ease, transform 0.3s ease;
+
+    &--done   { background: $purple; }
+    &--active { background: $pink; transform: scale(1.6); }
+  }
+
+  // ─── CTA text ────────────────────────────────────────────────────────────────
+  &__cta {
+    font-family: $font-body;
+    font-size: 12px;
+    font-weight: 300;
+    color: $text-ghost;
+    letter-spacing: 0.04em;
   }
 }

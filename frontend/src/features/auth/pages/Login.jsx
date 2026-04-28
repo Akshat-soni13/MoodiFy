@@ -1,26 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "../styles/login.scss"
 import "../../../shared/sstyles/button.scss"
 import FormGroup from '../components/FormGroup' 
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
 const Login = () => {
-  return (
+  const {loading, HandleLogin} = useAuth()
+  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("")
+ const navigate= useNavigate()
 
+  async function handleSubmit(e)
+  {
+    e.preventDefault()
+    await HandleLogin({email,password})
+    navigate("/")
+  }
+
+  return (
     <main className="login-page">
       <div className="form-container"> 
         <h1>Login Page</h1>
-          <form>
-            <FormGroup type="Email" label="email" placeholder="Enter Email"></FormGroup>
-            <FormGroup type="password" label="password" placeholder="Enter Passcode"></FormGroup>
-            
-            <button >Login</button>
+          <form onSubmit={handleSubmit}>
+            <FormGroup
+            label="email"
+            value={email}
+            onChange={(e)=> setEmail(e.target.value)}
+            type="Email"  placeholder="Enter Email"></FormGroup>
+            <FormGroup
+            label="passsword"
+            value={password}
+            onChange={(e)=> setPassword(e.target.value)}
+            type="password"  placeholder="Enter Passcode"></FormGroup>
+            <button type="submit" >Login</button>
             <p className="Asker">You Don't Have Account ? <Link to="/register" className="st">Register Here</Link></p>
-
           </form>
-
-
       </div>
-
     </main>
 
   )
