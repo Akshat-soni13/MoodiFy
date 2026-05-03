@@ -23,15 +23,17 @@ const Login = () => {
         <h1>Login Page</h1>
           <form onSubmit={handleSubmit}>
             <FormGroup
-            label="email"
+            label=""
+            placeholder="Enter Email"
             value={email}
             onChange={(e)=> setEmail(e.target.value)}
-            type="Email"  placeholder="Enter Email"></FormGroup>
+            type="Email"  ></FormGroup>
             <FormGroup
-            label="passsword"
+            label=""
             value={password}
+            placeholder="Enter password"
             onChange={(e)=> setPassword(e.target.value)}
-            type="password"  placeholder="Enter Passcode"></FormGroup>
+            type="password"  ></FormGroup>
             <button type="submit" >Login</button>
             <p className="Asker">You Don't Have Account ? <Link to="/register" className="st">Register Here</Link></p>
           </form>
