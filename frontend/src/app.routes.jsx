@@ -4,12 +4,12 @@ import Register from "./features/auth/pages/Register"
 import Loader from "./shared/Loader"
 import FaceExpression from "./features/expression/components/FaceExpression"
 import Protected from "./features/auth/components/Protected"
+import Home from "./features/home/pages/Home"
 export const router = createBrowserRouter([
-
     {
         path:"/",
         element:<Protected>
-            <h1>Welcome Homee..</h1>
+            <Home></Home>
         </Protected>
     //   {/* <FaceExpression></FaceExpression> */}
         // element: <FaceExpression></FaceExpression>
